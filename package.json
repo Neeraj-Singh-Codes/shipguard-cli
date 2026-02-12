@@ -1,0 +1,24 @@
+{
+  "name": "shipguard",
+  "version": "1.2.0",
+  "description": "DevOps assistant for Node.js projects — audit, score, and harden your Express backend.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/cli.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bin": {
+    "shipguard": "./bin/shipguard.js"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "commander": "^14.0.3",
+    "cors": "^2.8.6",
+    "fs-extra": "^11.3.3",
+    "glob": "^13.0.2",
+    "ora": "^9.3.0"
+  }
+}
