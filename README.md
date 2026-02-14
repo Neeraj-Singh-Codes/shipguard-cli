@@ -4,7 +4,7 @@ ShipGuard is a CLI tool designed to audit Node.js Express backend projects and e
 
 ## Installation
 
-You can install ShipGuard globally or run it via `npx` (once published). For local development:
+You can install ShipGuard globally or run it via `npx`. For local development:
 
 ```bash
 git clone https://github.com/Neeraj-Singh-Codes/shipguard-cli.git
