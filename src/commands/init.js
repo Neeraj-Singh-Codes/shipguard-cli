@@ -9,18 +9,18 @@ const templatesDir = path.join(__dirname, '..', 'init', 'templates');
 
 const writeIfMissing = async (filePath, content, label) => {
     if (await fs.pathExists(filePath)) {
-        console.log(chalk.yellow(`⚠️  ${label} already exists — skipping.`));
+        console.log(chalk.yellow(`  [SKIP] ${label} already exists`));
         return false;
     }
     await fs.ensureDir(path.dirname(filePath));
     await fs.writeFile(filePath, content);
-    console.log(chalk.green(`✅ ${label} created.`));
+    console.log(chalk.green(`  [CREATED] ${label}`));
     return true;
 };
 
 export const handleInitDocker = async () => {
     const cwd = process.cwd();
-    console.log(chalk.bold.blue('\n🐳 ShipGuard — Init Docker\n'));
+    console.log(chalk.bold('  Generating Docker config...\n'));
 
     const tpl = await fs.readFile(path.join(templatesDir, 'Dockerfile.tpl'), 'utf-8');
     await writeIfMissing(path.join(cwd, 'Dockerfile'), tpl, 'Dockerfile');
@@ -28,16 +28,16 @@ export const handleInitDocker = async () => {
     const dockerignore = `node_modules\nnpm-debug.log\n.env\n.git\n`;
     await writeIfMissing(path.join(cwd, '.dockerignore'), dockerignore, '.dockerignore');
 
-    console.log(chalk.dim('\nDone. Review the generated files before building.\n'));
+    console.log(chalk.dim('\n  Done. Review generated files before building.\n'));
 };
 
 export const handleInitCi = async () => {
     const cwd = process.cwd();
-    console.log(chalk.bold.blue('\n⚙️  ShipGuard — Init CI\n'));
+    console.log(chalk.bold('  Generating CI workflow...\n'));
 
     const tpl = await fs.readFile(path.join(templatesDir, 'ci.yml.tpl'), 'utf-8');
     const dest = path.join(cwd, '.github', 'workflows', 'ci.yml');
     await writeIfMissing(dest, tpl, '.github/workflows/ci.yml');
 
-    console.log(chalk.dim('\nDone. Commit and push to activate the workflow.\n'));
+    console.log(chalk.dim('\n  Done. Commit and push to activate.\n'));
 };

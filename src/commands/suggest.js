@@ -6,26 +6,26 @@ export const handleSuggest = async () => {
     const failing = report.results.filter(r => r.status !== 'pass');
 
     if (failing.length === 0) {
-        console.log(chalk.green('\n🎉 All checks passed! No suggestions needed.\n'));
+        console.log(chalk.green('  All checks passed. No suggestions.\n'));
         return;
     }
 
-    console.log(chalk.bold.dim('  ── Improvement Suggestions ──────────────'));
+    console.log(chalk.dim('  ────────────────────────────────────────'));
+    console.log(`  ${chalk.bold('SUGGESTIONS')}`);
     console.log('');
 
     const categories = [...new Set(failing.map(r => r.category))];
 
     for (const cat of categories) {
-        console.log(chalk.bold.cyan(`  ${cat.toUpperCase()}`));
+        console.log(`  ${chalk.bold(cat.toUpperCase())}`);
         const items = failing.filter(r => r.category === cat);
         for (const item of items) {
-            const icon = item.status === 'fail' ? '❌' : '⚠️ ';
-            console.log(`  ${icon} ${chalk.bold(item.name)}`);
-            console.log(`     ${chalk.dim(item.message)}`);
+            const tag = item.status === 'fail' ? chalk.red('[FAIL]') : chalk.yellow('[WARN]');
+            console.log(`  ${tag} ${chalk.bold(item.name)}`);
+            console.log(`         ${chalk.dim(item.message)}`);
         }
         console.log('');
     }
 
-    console.log(chalk.dim('=========================================='));
-    console.log(chalk.dim(`${failing.length} suggestion(s) across ${categories.length} category(ies)\n`));
+    console.log(chalk.dim(`  ${failing.length} issue(s) across ${categories.length} category(ies)\n`));
 };

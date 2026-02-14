@@ -25,25 +25,24 @@ const main = async () => {
             sortOptions: false,
         })
         .addHelpText('before', `
-  ${chalk.bold.blue('🚢 ShipGuard')} ${chalk.dim(`v${version}`)}
-  ${chalk.dim('DevOps Assistant for Node.js Projects')}
+  ${chalk.bold(`ShipGuard v${version}`)}
 `)
         .addHelpText('after', `
-${chalk.bold.cyan('Examples:')}
+${chalk.bold('Examples:')}
   ${chalk.dim('$')} shipguard check              Run a full audit
-  ${chalk.dim('$')} shipguard check --json       Get results as JSON
-  ${chalk.dim('$')} shipguard doctor             Full diagnostic + verdict
-  ${chalk.dim('$')} shipguard score              Quick score (CI-friendly)
+  ${chalk.dim('$')} shipguard check --json       Output as JSON
+  ${chalk.dim('$')} shipguard doctor             Full diagnostic
+  ${chalk.dim('$')} shipguard score              Quick score for CI
   ${chalk.dim('$')} shipguard score --fail-under 70
-  ${chalk.dim('$')} shipguard suggest            Actionable fix suggestions
+  ${chalk.dim('$')} shipguard suggest            Fix suggestions
   ${chalk.dim('$')} shipguard explain Helmet     Learn about a check
   ${chalk.dim('$')} shipguard init docker        Generate Dockerfile
-  ${chalk.dim('$')} shipguard init ci            Generate GitHub Actions
+  ${chalk.dim('$')} shipguard init ci            Generate CI workflow
 
 ${chalk.dim('Run')} shipguard <command> --help ${chalk.dim('for details on a specific command.')}
 `);
 
-    // ── Core Commands ──────────────────────────────────
+    // Core Commands
 
     program
         .command('check')
@@ -56,7 +55,7 @@ ${chalk.dim('Run')} shipguard <command> --help ${chalk.dim('for details on a spe
 
     program
         .command('doctor')
-        .description('Full diagnostic — audit, suggestions, and verdict')
+        .description('Full diagnostic report with verdict')
         .action(async () => {
             await printBanner(program.opts().quiet);
             await handleDoctor();
@@ -83,7 +82,7 @@ ${chalk.dim('Run')} shipguard <command> --help ${chalk.dim('for details on a spe
         .command('explain <check-name>')
         .description('Explain why a check matters and how to fix it')
         .addHelpText('after', `
-${chalk.bold.cyan('Available checks:')}
+${chalk.bold('Available checks:')}
   Helmet, Rate Limiting, CORS, NODE_ENV,
   Dockerfile, GitHub Actions, Tests,
   Error Handling, Environment Config
@@ -93,13 +92,13 @@ ${chalk.bold.cyan('Available checks:')}
             await handleExplain(checkName);
         });
 
-    // ── Init Commands ──────────────────────────────────
+    // Init Commands
 
     const initCmd = program
         .command('init')
         .description('Generate production-ready config files')
         .addHelpText('after', `
-${chalk.bold.cyan('Generators:')}
+${chalk.bold('Generators:')}
   docker    Multi-stage Dockerfile + .dockerignore
   ci        GitHub Actions workflow with ShipGuard gate
 `);

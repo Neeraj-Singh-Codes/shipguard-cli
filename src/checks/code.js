@@ -20,8 +20,6 @@ export const checkTests = async () => {
 };
 
 export const checkErrorMiddleware = async () => {
-    // Basic heuristic: scan js/ts files for a function with 4 arguments (err, req, res, next)
-    // Limits search to src/ or top level to avoid node_modules
     const files = await glob('**/*.{js,ts}', { 
         ignore: ['node_modules/**', 'dist/**', 'build/**', 'coverage/**'],
         cwd: process.cwd()

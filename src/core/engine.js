@@ -1,5 +1,6 @@
 import { registry } from './registry.js';
 import { getPackageJson } from '../utils/npm.js';
+import path from 'path';
 
 export const runEngine = async (options = {}) => {
     const pkg = await getPackageJson();
@@ -39,7 +40,7 @@ export const runEngine = async (options = {}) => {
         status,
         results,
         metadata: {
-            projectName: pkg?.name || 'unknown',
+            projectName: pkg?.name || path.basename(process.cwd()),
             nodeVersion: process.version,
             timestamp: new Date().toISOString()
         }
